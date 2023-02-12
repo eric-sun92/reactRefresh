@@ -13,6 +13,7 @@ function App() {
         {
           id: previous.length == 0 ? 1 : previous[previous.length - 1],
           name: task,
+          completed: false,
         },
       ];
     });
@@ -28,6 +29,14 @@ function App() {
     });
   };
 
+  const completeToDo = (toDoid) => {
+    setToDoList((previous) => {
+      return previous.map((task) => {
+        return task.id == toDoid ? { ...task, completed: true } : task;
+      });
+    });
+  };
+
   return (
     <>
       <div>
@@ -38,10 +47,11 @@ function App() {
         {toDoList.map((toDo, key) => {
           return (
             <div key={key} style={{ display: "flex" }}>
-              <button key={key} onClick={() => deleteToDo(toDo.id)}>
-                Delete
-              </button>
-              <h1>{toDo.name}</h1>
+              <button onClick={() => deleteToDo(toDo.id)}>Delete</button>
+              <button onClick={() => completeToDo(toDo.id)}>Complete</button>
+              <h1 style={{ color: toDo.completed == true ? "green" : "red" }}>
+                {toDo.name}
+              </h1>
             </div>
           );
         })}
